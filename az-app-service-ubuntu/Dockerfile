@@ -23,6 +23,8 @@ COPY sshd_config /etc/ssh/
 # COPY Files.
 # Copy needed files to needed location using COPY command. 
 # COPY index.html . --> This mean to copy index.html to current working directory. We set current work directory to /tmp above.
+COPY app-httpd.conf /etc/apache2/sites-enabled/000-default.conf
+COPY index.html /var/www/html/
 
 # Run a script that prepares your env. i.e. create directories and files, updating ENV variables etc.
 COPY ubuntu_prepare.sh /tmp/
@@ -33,14 +35,12 @@ RUN /tmp/ubuntu_prepare.sh
 # Here 2222 is needed for Azure App Service to enable SSH
 EXPOSE 80 2222
 
-# Now, 
-COPY app.sh /tmp/
-RUN chmod u+x /tmp/app.sh
+# If you are just starting one program in container, then you can simply use CMD like following
+# CMD /usr/sbin/apache2ctl -D FOREGROUND
+# However, in some case, you may have to perform few steps before starting programs such as web server. 
+# In this case, create a script and follow these steps.
+COPY app_start.sh /tmp/
+RUN chmod u+x /tmp/app_start.sh
 
-# Working
-#CMD /usr/sbin/apache2ctl -D FOREGROUND
-
-#Test 1
+# When container get created, following command will be executed.
 CMD ./app.sh
-
-
