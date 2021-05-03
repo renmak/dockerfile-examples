@@ -27,9 +27,9 @@ COPY app-httpd.conf /etc/apache2/sites-enabled/000-default.conf
 COPY index.html /var/www/html/
 
 # Run a script that prepares your env. i.e. create directories and files, updating ENV variables etc.
-COPY ubuntu_prepare.sh /tmp/
-RUN chmod +x /tmp/10363_ubuntu_prepare.sh
-RUN /tmp/ubuntu_prepare.sh
+COPY prepare.sh .
+RUN chmod +x /tmp/prepare.sh
+RUN /tmp/prepare.sh
 
 # Depending type of application, you may have to open one or more ports. 
 # Here 2222 is needed for Azure App Service to enable SSH
@@ -43,4 +43,4 @@ COPY app_start.sh /tmp/
 RUN chmod u+x /tmp/app_start.sh
 
 # When container get created, following command will be executed.
-CMD ./app.sh
+CMD ./app_start.sh
