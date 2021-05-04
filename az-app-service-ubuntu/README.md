@@ -19,8 +19,10 @@ Successfully built d13ede14cab9
 Note: In above msg, d13ede14cab9 is docker image id. You can also find this id by running
 `sudo docker images` command.
 
+`sudo docker images`
+
+Output:
 ```
-sudo docker images
 REPOSITORY                                              TAG             IMAGE ID       CREATED          SIZE
 <none>                                                  <none>          d13ede14cab9   6 minutes ago    286MB
 ```
@@ -52,6 +54,7 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED              STAT
 
 Attach to container:
 `sudo docker exec -it 7afc3676c251 /bin/bash`
+
 Output:
 `root@7afc3676c251:/tmp#`
 
