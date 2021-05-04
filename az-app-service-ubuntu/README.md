@@ -57,10 +57,13 @@ Attach to container:
 `sudo docker exec -it 7afc3676c251 /bin/bash`
 
 Output:
+
 `root@7afc3676c251:/tmp#`
 
 Checking logs
+
 `root@7afc3676c251:/tmp# tail -n 10 /var/log/myapp/access.log`
 
 Output:
+
 `172.17.0.1 - - [04/May/2021:18:09:44 +0000] "GET / HTTP/1.1" 200 287 "-" "curl/7.58.0"`
