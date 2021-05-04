@@ -27,11 +27,10 @@ REPOSITORY                                              TAG             IMAGE ID
 
 # Run App
 
-```
-sudo docker run -dt -p 80:80 d13ede14cab9
+`sudo docker run -dt -p 80:80 d13ede14cab9`
 
-5ed0d8c2d39057f8061041cbcfb694fb2502b8d2e7b5fd9be9e85d35182f8ad8
-```
+Output:
+`5ed0d8c2d39057f8061041cbcfb694fb2502b8d2e7b5fd9be9e85d35182f8ad8 `
 
 * Here we are exposing port 80 by specifying in command `-p 80:80`
 
@@ -39,9 +38,10 @@ sudo docker run -dt -p 80:80 d13ede14cab9
 `curl -i localhost:80`
 
 # Check running container
-```
-sudo docker ps
+`sudo docker ps`
 
+Output:
+```
 CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS          PORTS                          NAMES
 5ed0d8c2d390   d13ede14cab9   "/bin/sh -c ./app_st…"   About a minute ago   Up 59 seconds   0.0.0.0:80->80/tcp, 2222/tcp   nervous_bardeen
 ```
@@ -49,11 +49,13 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED              STAT
 * Note: Note Container ID. that's what you will use to exec into container.
 
 # Exec to container and check logs
-```
-sudo docker exec -it 7afc3676c251 /bin/bash
-root@7afc3676c251:/tmp#
-```
 
+Attach to container:
+`sudo docker exec -it 7afc3676c251 /bin/bash`
+Output:
+`root@7afc3676c251:/tmp#`
+
+Checking logs
 ```
 root@7afc3676c251:/tmp# tail -n 10 /var/log/myapp/access.log
 
