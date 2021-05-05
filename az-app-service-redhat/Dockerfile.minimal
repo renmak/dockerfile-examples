@@ -1,0 +1,50 @@
+# Your base image. 
+FROM registry.access.redhat.com/ubi7/ubi-minimal
+# ok  /ubi7/ubi
+
+# Set user to root
+
+# Set Work/current directory to /tmp.
+WORKDIR /tmp
+
+
+# OK RUN yum --disableplugin=subscription-manager -y install httpd 
+RUN microdnf -y install --nodocs httpd24 \
+  && microdnf clean all
+
+# To ssh into App Services, review following link:
+# https://docs.microsoft.com/en-us/azure/app-service/tutorial-custom-container?pivots=container-linux
+#RUN echo "root:Docker!" | chpasswd
+#COPY sshd_config /etc/ssh/
+
+# COPY Files.
+# Copy needed files to needed location using COPY command. 
+# COPY index.html . --> This mean to copy index.html to current working directory. We set current work directory to /tmp above.
+#COPY app-httpd.conf /opt/rh/httpd24/root/etc/httpd/conf/httpd.conf
+COPY index.html /opt/rh/httpd24/root/var/www/html/index.html
+
+
+RUN chgrp -R 0 /var/log/httpd24 /opt/rh/httpd24/root/var/run/httpd \
+  && chmod -R g=u /var/log/httpd24 /opt/rh/httpd24/root/var/run/httpd
+
+# Run a script that prepares your env. i.e. create directories and files, updating ENV variables etc.
+COPY prepare.sh .
+RUN chmod +x /tmp/prepare.sh
+RUN /tmp/prepare.sh
+
+# Depending type of application, you may have to open one or more ports. 
+# Here 2222 is needed for Azure App Service to enable SSH
+EXPOSE 80 2222
+
+# If you are just starting one program in container, then you can simply use CMD like following
+# CMD /usr/sbin/apache2ctl -D FOREGROUND
+# However, in some case, you may have to perform few steps before starting programs such as web server. 
+# In this case, create a script and follow these steps.
+COPY app_start.sh /tmp/
+RUN chmod u+x /tmp/app_start.sh
+
+USER 1001
+
+# When container get created, following command will be executed.
+#CMD ./app_start.sh
+CMD scl enable httpd24 -- httpd -D FOREGROUND
